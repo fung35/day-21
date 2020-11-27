@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    table {
+        margin: 0 auto;
+        text-align: center;
+        border-top: 1px solid #999;
+        border-left: 1px solid #999;
+        border-spacing: 0;
+    }
+    table,table  th{
+
+         border: 1px solid #000;
+
+     }
+    table thead th{
+
+        padding: 10px 30px;
+        background-color: skyblue;
+
+    }
+    tbody tr th{
+        border-right: 2px solid black;
+        border-spacing: 0;
+    }
+   tbody tr td{
+       border-bottom: 1px solid black;
+        padding: 10px 33px;
+       border-right: 2px solid black;
+       border-spacing: 0;
+    }
+</style>
+<script src="js/vue.js"></script>
+<body>
+<div id="app">
+    <table>
+    <thead><tr>
+    <th>
+        <input type="checkbox" v-model="checkAll" v-on:change="checkAllChange">
+    </th>
+        <th>用户姓名</th>
+        <th>用户性别</th>
+        <th>所在城市</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="(list,index) in lists" :key="index">
+        <th><input type="checkbox" v-model="list.check" v-on:change="curChange"></th>
+        <td>{{ list.name }}</td>
+        <td>{{ list.sex }}</td>
+        <td>{{ list.city }}</td>
+        <td><button disabled="true">删除</button></td>
+    </tr>
+    </tbody>
+    </table>
+</div>
+<script>
+var app = new Vue({
+    el:"#app",
+    data:{
+        checkAll:false,
+        lists:[
+            {name:'fung',sex:'男',city:'上海',check:false},
+            {name:'durant',sex:'男',city:'布鲁克林',check:true},
+            {name:'james',sex:'男',city:'克利夫兰',check:false}
+        ]
+    },
+    methods:{
+        checkAllChange:function (){
+            for(var i=0;i<this.lists.length;i++){
+                this.lists[i].check = this.checkAll
+            }
+        },
+        curChange:function (){
+            var selectState = this.lists.filter(function (item,index){
+                if(item.check == true){
+                    return item.check
+                }
+            });
+            if(selectState.length ==this.lists.length){
+                this.checkAll = true
+            }else if(selectState.length == 0){
+                this.checkAll = false
+            }
+        }
+    }
+})
+</script>
+
+</body>
+</html>
